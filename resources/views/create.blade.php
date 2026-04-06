@@ -30,7 +30,7 @@
 
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Prompt Body <span class="text-red-500">*</span></label>
-            <textarea x-model="form.body" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm font-mono" style="min-height: 400px; resize: vertical;" placeholder="Enter your prompt here..."></textarea>
+            <textarea x-model="form.body" x-ref="bodyTextarea" @input="$refs.bodyTextarea.style.height = 'auto'; $refs.bodyTextarea.style.height = $refs.bodyTextarea.scrollHeight + 'px'" class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm font-mono leading-relaxed" style="min-height: 300px; overflow: hidden; resize: none;" placeholder="Enter your prompt here..."></textarea>
         </div>
 
         <label class="inline-flex items-center gap-2 cursor-pointer">
