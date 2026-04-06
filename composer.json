@@ -1,0 +1,22 @@
+{
+    "name": "hexawebsystems/laravel-hexa-package-prompt-center",
+    "description": "Prompt Center — AI prompt management with categories and templates",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": "^8.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "hexa_package_prompt_center\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "hexa_package_prompt_center\\Providers\\PromptCenterServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "stable"
+}
