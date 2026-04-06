@@ -29,7 +29,7 @@
 
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Prompt Body</label>
-            <textarea x-model="form.body" x-ref="bodyTextarea" x-init="$nextTick(() => { $refs.bodyTextarea.style.height = 'auto'; $refs.bodyTextarea.style.height = $refs.bodyTextarea.scrollHeight + 'px'; })" @input="$refs.bodyTextarea.style.height = 'auto'; $refs.bodyTextarea.style.height = $refs.bodyTextarea.scrollHeight + 'px'" class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm font-mono leading-relaxed" style="min-height: 300px; overflow: hidden; resize: none;"></textarea>
+            <x-hexa-tinymce name="prompt-body" :value="$template->body ?? ''" preset="minimal" :height="500" id="prompt-body-editor" />
         </div>
 
         <label class="inline-flex items-center gap-2 cursor-pointer">
@@ -64,6 +64,9 @@ function promptEditForm() {
         saving: false, deleting: false, result: '', success: false,
         async save() {
             this.saving = true; this.result = '';
+            // Read body from TinyMCE editor
+            const editor = tinymce.get('prompt-body-editor');
+            if (editor) this.form.body = editor.getContent();
             try {
                 const r = await fetch('{{ route("prompt-center.update", $template->id) }}', {
                     method: 'PUT',
