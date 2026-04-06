@@ -30,7 +30,7 @@
 
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Prompt Body <span class="text-red-500">*</span></label>
-            <x-hexa-tinymce name="prompt-body" value="" preset="minimal" :height="500" id="prompt-body-editor" />
+            <textarea x-model="form.body" @input="$el.style.height = 'auto'; $el.style.height = $el.scrollHeight + 'px'" class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm font-mono leading-relaxed whitespace-pre-wrap" style="min-height: 300px; overflow-y: hidden; resize: none;" placeholder="Enter your prompt here..."></textarea>
         </div>
 
         <label class="inline-flex items-center gap-2 cursor-pointer">
@@ -63,8 +63,6 @@ function promptForm() {
         saving: false, result: '', success: false,
         async save() {
             this.saving = true; this.result = '';
-            const editor = tinymce.get('prompt-body-editor');
-            if (editor) this.form.body = editor.getContent();
             try {
                 const r = await fetch('{{ route("prompt-center.store") }}', {
                     method: 'POST',
