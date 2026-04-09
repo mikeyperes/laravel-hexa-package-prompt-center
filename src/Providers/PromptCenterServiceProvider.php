@@ -27,6 +27,17 @@ class PromptCenterServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'prompt-center');
         $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
 
+        if (class_exists(\hexa_core\Services\PackageRegistryService::class)) {
+            app(\hexa_core\Services\PackageRegistryService::class)->registerPackage('prompt-center', 'hexawebsystems/laravel-hexa-package-prompt-center', [
+                'title' => 'Prompt Center',
+                'description' => 'Central prompt library for categorized AI prompt templates and defaults.',
+                'docsSlug' => 'prompt-center',
+                'instructions' => [
+                    'Use Prompt Center to define reusable prompts for downstream packages and workflows.',
+                ],
+            ]);
+        }
+
         // Settings card
         view()->composer('settings.index', function ($view) {
             $view->getFactory()->startPush('settings-cards',
