@@ -38,6 +38,7 @@ class PromptCenterServiceProvider extends ServiceProvider
                 'icon' => 'M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z',
                 'description' => 'Central prompt library for categorized AI prompt templates and defaults.',
                 'settingsRoute' => 'prompt-center.settings',
+            'settingsShellClass' => 'max-w-3xl',
                 'docsSlug' => 'prompt-center',
                 'instructions' => [
                     'Use Prompt Center to define reusable prompts for downstream packages and workflows.',
