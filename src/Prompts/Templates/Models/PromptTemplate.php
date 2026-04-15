@@ -13,7 +13,9 @@ class PromptTemplate extends Model
     protected $fillable = [
         'prompt_category_id',
         'name',
+        'slug',
         'body',
+        'notes',
         'is_default',
     ];
 

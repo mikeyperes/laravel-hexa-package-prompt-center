@@ -36,6 +36,7 @@
                                     <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-amber-200 text-amber-800">Default</span>
                                 @endif
                             </div>
+                            <p class="text-[11px] font-mono text-gray-400 mt-1">{{ $template->slug ?: 'no-slug' }}</p>
                             <p class="text-xs text-gray-400 mt-1 break-words">{{ \Illuminate\Support\Str::limit($template->body, 150) }}</p>
                         </div>
                         <div class="flex items-center gap-2 flex-shrink-0 ml-3">

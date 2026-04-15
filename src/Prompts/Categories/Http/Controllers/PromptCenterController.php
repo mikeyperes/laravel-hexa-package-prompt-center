@@ -8,6 +8,7 @@ use hexa_package_prompt_center\Prompts\Templates\Models\PromptTemplate;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class PromptCenterController extends Controller
@@ -57,7 +58,9 @@ class PromptCenterController extends Controller
         $validated = $request->validate([
             'prompt_category_id' => 'required|exists:prompt_categories,id',
             'name' => 'required|string|max:255',
+            'slug' => 'nullable|string|max:255|unique:prompt_templates,slug',
             'body' => 'required|string',
+            'notes' => 'nullable|string',
             'is_default' => 'nullable|boolean',
         ]);
 
@@ -65,6 +68,12 @@ class PromptCenterController extends Controller
             PromptTemplate::where('prompt_category_id', $validated['prompt_category_id'])
                 ->update(['is_default' => false]);
         }
+
+        $validated['slug'] = $this->resolveSlug(
+            $validated['slug'] ?? null,
+            $validated['name'],
+            null
+        );
 
         $template = PromptTemplate::create($validated);
 
@@ -110,7 +119,9 @@ class PromptCenterController extends Controller
         $validated = $request->validate([
             'prompt_category_id' => 'required|exists:prompt_categories,id',
             'name' => 'required|string|max:255',
+            'slug' => 'nullable|string|max:255|unique:prompt_templates,slug,' . $template->id,
             'body' => 'required|string',
+            'notes' => 'nullable|string',
             'is_default' => 'nullable|boolean',
         ]);
 
@@ -119,6 +130,12 @@ class PromptCenterController extends Controller
                 ->where('id', '!=', $template->id)
                 ->update(['is_default' => false]);
         }
+
+        $validated['slug'] = $this->resolveSlug(
+            $validated['slug'] ?? null,
+            $validated['name'],
+            $template->id
+        );
 
         $template->update($validated);
 
@@ -166,5 +183,23 @@ class PromptCenterController extends Controller
             'success' => true,
             'message' => "'{$template->name}' is now the default.",
         ]);
+    }
+
+    private function resolveSlug(?string $slug, string $name, ?int $ignoreId): string
+    {
+        $base = Str::slug(trim($slug ?: $name));
+        $base = $base !== '' ? $base : 'prompt-template';
+        $candidate = $base;
+        $suffix = 2;
+
+        while (PromptTemplate::query()
+            ->when($ignoreId, fn ($query) => $query->where('id', '!=', $ignoreId))
+            ->where('slug', $candidate)
+            ->exists()) {
+            $candidate = $base . '-' . $suffix;
+            $suffix++;
+        }
+
+        return $candidate;
     }
 }

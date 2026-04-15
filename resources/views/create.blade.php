@@ -29,8 +29,27 @@
         </div>
 
         <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Stable Key / Slug</label>
+            <input type="text" x-model="form.slug" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm font-mono" placeholder="e.g. press-release-polish">
+            <p class="text-xs text-gray-400 mt-1">Used by workflows to select this prompt directly. Leave blank to auto-generate from the name.</p>
+        </div>
+
+        <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Prompt Body <span class="text-red-500">*</span></label>
             <textarea x-model="form.body" @input="$el.style.height = 'auto'; $el.style.height = $el.scrollHeight + 'px'" class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm font-mono leading-relaxed whitespace-pre-wrap" style="min-height: 300px; overflow-y: hidden; resize: none;" placeholder="Enter your prompt here..."></textarea>
+        </div>
+
+        {{-- Notes section --}}
+        <div x-data="{ notesOpen: false }">
+            <button type="button" @click="notesOpen = !notesOpen" class="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-gray-900">
+                <svg class="w-4 h-4 transition-transform" :class="notesOpen ? 'rotate-90' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                Notes &amp; AI Writing Checklist
+                <span class="text-xs text-gray-400 font-normal">(considerations for AI when writing)</span>
+            </button>
+            <div x-show="notesOpen" x-cloak class="mt-2">
+                <textarea x-model="form.notes" @input="$el.style.height = 'auto'; $el.style.height = $el.scrollHeight + 'px'" class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm font-mono leading-relaxed whitespace-pre-wrap" style="min-height: 120px; overflow-y: hidden; resize: none;" placeholder="AI writing checklist and notes...&#10;&#10;Example:&#10;- Use H2 tags for section headings&#10;- No title in article body&#10;- Match category tone&#10;- Include expert quotes where possible"></textarea>
+                <p class="text-xs text-gray-400 mt-1">Internal notes — not sent to AI. Use this to document prompt design decisions and writing considerations.</p>
+            </div>
         </div>
 
         <label class="inline-flex items-center gap-2 cursor-pointer">
@@ -57,7 +76,9 @@ function promptForm() {
         form: {
             prompt_category_id: @json($selectedCategoryId ?? ''),
             name: '',
+            slug: '',
             body: '',
+            notes: '',
             is_default: false,
         },
         saving: false, result: '', success: false,
