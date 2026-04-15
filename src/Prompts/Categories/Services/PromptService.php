@@ -23,6 +23,17 @@ class PromptService
     }
 
     /**
+     * Get a prompt template by stable slug/key.
+     *
+     * @param string $templateSlug
+     * @return PromptTemplate|null
+     */
+    public function getByTemplateSlug(string $templateSlug): ?PromptTemplate
+    {
+        return PromptTemplate::where('slug', $templateSlug)->first();
+    }
+
+    /**
      * Get all prompt templates for a category.
      *
      * @param string $categorySlug
