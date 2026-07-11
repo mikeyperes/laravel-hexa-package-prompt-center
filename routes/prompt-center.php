@@ -14,7 +14,5 @@ Route::middleware(['web', 'auth', 'locked'])->group(function () {
 
     Route::get('/prompt-center/settings', [SettingsController::class, 'index'])->name('prompt-center.settings');
 
-    Route::get('/raw-prompt-center', function () {
-        return view('prompt-center::raw.index');
-    })->name('prompt-center.raw');
+    Route::get("/raw-prompt-center", [PromptCenterController::class, "raw"])->name("prompt-center.raw");
 });

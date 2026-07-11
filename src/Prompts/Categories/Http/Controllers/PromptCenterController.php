@@ -31,6 +31,12 @@ class PromptCenterController extends Controller
         ]);
     }
 
+
+    public function raw(): View
+    {
+        return view("prompt-center::raw.index");
+    }
+
     /**
      * Create new prompt form.
      *
