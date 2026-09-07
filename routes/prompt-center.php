@@ -3,7 +3,7 @@
 use hexa_package_prompt_center\Prompts\Categories\Http\Controllers\PromptCenterController;
 use hexa_package_prompt_center\Prompts\Settings\Http\Controllers\SettingsController;
 
-Route::middleware(['web', 'auth', 'locked'])->group(function () {
+Route::middleware(['web', 'auth', 'locked', 'system_lock', 'two_factor', 'role'])->group(function () {
     Route::get('/prompt-center', [PromptCenterController::class, 'index'])->name('prompt-center.index');
     Route::get('/prompt-center/create', [PromptCenterController::class, 'create'])->name('prompt-center.create');
     Route::post('/prompt-center', [PromptCenterController::class, 'store'])->name('prompt-center.store');
